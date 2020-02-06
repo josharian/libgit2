@@ -392,6 +392,25 @@ void test_online_clone__credentials(void)
 	cl_fixture_cleanup("./foo");
 }
 
+void test_online_clone__credentials_via_custom_headers(void)
+{
+	git_buf auth = GIT_BUF_INIT, creds = GIT_BUF_INIT;
+
+	if (!_remote_url || !_remote_user || !_remote_pass)
+		clar__skip();
+
+	cl_git_pass(git_buf_printf(&creds, "%s:%s", _remote_user, _remote_pass));
+	cl_git_pass(git_buf_puts(&auth, "Authorization: Basic "));
+	cl_git_pass(git_buf_encode_base64(&auth, creds.ptr, creds.size));
+	g_options.fetch_opts.custom_headers.count = 1;
+	g_options.fetch_opts.custom_headers.strings = &auth.ptr;
+
+	cl_git_pass(git_clone(&g_repo, _remote_url, "./foo", &g_options));
+
+	git_buf_dispose(&creds);
+	git_buf_dispose(&auth);
+}
+
 void test_online_clone__bitbucket_style(void)
 {
 	git_credential_userpass_payload user_pass = {
