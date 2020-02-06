@@ -203,7 +203,9 @@ typedef enum {
 	GIT_OPT_ENABLE_UNSAVED_INDEX_SAFETY,
 	GIT_OPT_GET_PACK_MAX_OBJECTS,
 	GIT_OPT_SET_PACK_MAX_OBJECTS,
-	GIT_OPT_DISABLE_PACK_KEEP_FILE_CHECKS
+	GIT_OPT_DISABLE_PACK_KEEP_FILE_CHECKS,
+	GIT_OPT_GET_MWINDOW_OPEN_LIMIT,
+	GIT_OPT_SET_MWINDOW_OPEN_LIMIT
 } git_libgit2_opt_t;
 
 /**
@@ -225,7 +227,7 @@ typedef enum {
  *
  *	* opts(GIT_OPT_SET_MWINDOW_MAPPED_LIMIT, size_t):
  *
- *		>Set the maximum amount of memory that can be mapped at any time
+ *		> Set the maximum amount of memory that can be mapped at any time
  *		by the library
  *
  *	* opts(GIT_OPT_GET_SEARCH_PATH, int level, git_buf *buf)
@@ -396,6 +398,16 @@ typedef enum {
  *	 opts(GIT_OPT_DISABLE_PACK_KEEP_FILE_CHECKS, int enabled)
  *		> This will cause .keep file existence checks to be skipped when
  *		> accessing packfiles, which can help performance with remote filesystems.
+ *
+ *	* opts(GIT_OPT_GET_MWINDOW_OPEN_LIMIT, unsigned int *):
+ *
+ *		> Get the maximum number of files that will be mapped at any time by the library
+ *
+ *	* opts(GIT_OPT_SET_MWINDOW_MAPPED_LIMIT, unsigned int):
+ *
+ *		> Set the maximum number of files that can be mapped at any time
+ *		by the library
+ *
  *
  * @param option Option key
  * @param ... value to set the option
